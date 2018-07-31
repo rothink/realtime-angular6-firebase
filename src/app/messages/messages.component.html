@@ -1,0 +1,22 @@
+<input type="text" placeholder="message" #newitem />
+
+<button (click)="addItem(newitem.value)">Add</button>
+
+<button (click)="deleteEverything()">Delete All</button>
+
+<br><br>
+
+<table class="table">
+
+  <tbody>
+
+    <tr *ngFor="let item of items">
+
+      <label for="">{{item.name}}</label>
+
+    </tr>
+
+  </tbody>
+
+</table>
+
