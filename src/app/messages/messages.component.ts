@@ -14,45 +14,44 @@ export class MessagesComponent implements OnInit {
 
     itemsRef: AngularFireList<any>;
 
-    items: Observable<any[]>;
+    items: {};
 
     projectsObservable: Observable<any[]>;
 
     constructor(private db: AngularFireDatabase) {
-
+        this.itemsRef = this.db.list('usuarios');
     }
 
     ngOnInit() {
-
-        this.db.list('usuarios')
+        this.itemsRef
             .valueChanges()
             .subscribe(res => {
                 this.items = res;
             });
-
-
     }
 
     addItem(newName: string) {
-        this.db.list('usuarios').push({name: newName, created: (new Date()).toLocaleString(), modified: (new Date()).toLocaleString()});
+        this.itemsRef.push({name: newName, created: (new Date()).toLocaleString(), modified: (new Date()).toLocaleString()});
     }
 
     updateItem(key: string, newText: string) {
-
         this.itemsRef.update(key, {text: newText, modified: (new Date()).toLocaleString()});
-
     }
 
-    deleteItem(key: string) {
+    deleteItem(key) {
+
+        console.info(key);
+
 
         this.itemsRef.remove(key);
 
+        // this.itemsRef.remove(key).then(function(res){
+        //     console.info(res);
+        // });
     }
 
     deleteEverything() {
-
         this.itemsRef.remove();
-
     }
 
 }
