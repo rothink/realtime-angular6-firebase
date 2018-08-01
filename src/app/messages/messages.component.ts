@@ -24,9 +24,9 @@ export class MessagesComponent implements OnInit {
 
     ngOnInit() {
         this.itemsRef
-            .valueChanges()
-            .subscribe(res => {
-                this.items = res;
+            .snapshotChanges()
+            .subscribe(changes => {
+                this.items = changes.map(c => ({ key: c.payload.key, ...c.payload.val() }));
             });
     }
 
@@ -39,15 +39,9 @@ export class MessagesComponent implements OnInit {
     }
 
     deleteItem(key) {
-
-        console.info(key);
-
-
-        this.itemsRef.remove(key);
-
-        // this.itemsRef.remove(key).then(function(res){
-        //     console.info(res);
-        // });
+        this.itemsRef.remove(key).then(function(res){
+            alert("excluído com sucesso");
+        });
     }
 
     deleteEverything() {
